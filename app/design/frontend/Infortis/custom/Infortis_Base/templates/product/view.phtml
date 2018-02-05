@@ -1,0 +1,64 @@
+<?php
+/**
+ * @var \Infortis\Base\Block\Catalog\Product\View $block
+ */
+
+$objectManager   =  \Magento\Framework\App\ObjectManager::getInstance();
+$media_url   =  $objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+$catalog_url  = "catalog/product";
+$image_full_path = $media_url.$catalog_url;
+$prod = $block->getProduct();
+?>
+<div class="product-view product-columns-wrapper">
+
+  <div class="product-details-head">
+    <div class="bg-image" style="background-image:url('<?php echo $image_full_path.$prod->getResource()->getAttribute('image')->getFrontend()->getValue($prod); ?>')"></div>
+    <div class="bg-color"></div>
+  </div>
+  <div class="product-details-base">
+      <div class="container">
+        <div class="inner-container">
+
+            <?php // TODO: remove old classes such as "product-shop" ?>
+            <div class="product-primary-column product-shop product-info-main">
+
+                <a href="javascript:;" onclick="openDescModal();" class="product-title">
+                  <?php echo $block->getChildHtml('page.main.title'); ?>
+                </a>
+                <?php echo $block->getChildHtml('product.info.main'); ?>
+
+                <?php // Container at the bottom ?>
+                <?php echo $block->getChildHtml('container_product_primary_2'); ?>
+
+            </div>
+
+            <div class="product-lower-primary-column">
+
+                <?php echo $block->getChildHtml('bundle.options.container'); ?>
+                <?php echo $block->getChildHtml('moved.downloadable.product-info'); ?>
+
+                <?php // Container at the top. Important: required AFTER the bundle and downloadable blocks. ?>
+                <?php echo $block->getChildHtml('container_product_lower_primary_1'); ?>
+
+                <?php if (isset($p['lowerPrimCol_1'])) echo $p['lowerPrimCol_1']; ?>
+
+                <?php // Container at the bottom ?>
+                <?php echo $block->getChildHtml('container_product_lower_primary_2'); ?>
+
+            </div>
+
+        </div>
+      </div>
+    </div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+    requirejs(['jquery','qtycontrol'], function(jQuery, qtycontrol) {
+        jQuery(function($) {
+            $('input.qty').qtycontrol();
+        }); //end: on document ready
+    });
+
+//]]>
+</script>

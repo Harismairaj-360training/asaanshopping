@@ -1,0 +1,55 @@
+.table.grouped .col.qty{
+    text-align: right;
+}
+.table.grouped .col.qty .qty-label{
+  display: block;
+  margin-right: 36px;
+}
+.table.grouped .col.qty::before {
+    margin-right: 36px;
+    margin-bottom:5px;
+}
+.product-title{
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+  display: block;
+}
+.product-title .page-title{
+  display: inline-block;
+  margin: 0 !important;
+}
+.product.info.detailed{
+    display: none;
+}
+.product-details-head{
+    display: inline-block;
+    width: 100%;
+    position: relative;
+    color: #fff;
+    height:200px;
+}
+.product-details-head .bg-image{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    z-index: -2;
+}
+.product-details-head .bg-color{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(30, 195, 123, 0.7);
+    z-index: -1;
+}
+.product-details-base{
+    display: inline-block;
+    width: 100%;
+}

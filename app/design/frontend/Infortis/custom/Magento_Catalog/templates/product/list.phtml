@@ -382,9 +382,9 @@ use Magento\Framework\App\Action\Action;
                 <a href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>">
                   <div class="ban ban-effect-1 ban-caption-fade-out">
                     <img class="image" src="<?php echo $helperImage->getImageUrl($_product); ?>" alt="Banner">
-                    <div class="cap" style="background-color: rgba(255, 254, 84, 0.6);"></div>
-                    <div class="cap cap-no-bg cap-text-bg cap-text-bg-dark-3 cap-center-vertically">
-                      <h2 class="text"><p><?php /* @escapeNotVerified */ echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?></p></h3>
+                    <div class="cap cap-bottom-left" style="background-color: rgba(30, 195, 123, 0.7);">
+                      <h2><?php /* @escapeNotVerified */ echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?></h3>
+                      <p><?php /* @escapeNotVerified */ echo $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description') ?></p>
                     </div>
                   </div>
                   <div>
@@ -397,7 +397,6 @@ use Magento\Framework\App\Action\Action;
                       <?php endif; ?>
                   <?php endif; ?>
                   </div>
-                  <div><?php /* @escapeNotVerified */ echo $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description') ?></div>
                 </a>
                 <!-- End - Vendor specified category -->
 

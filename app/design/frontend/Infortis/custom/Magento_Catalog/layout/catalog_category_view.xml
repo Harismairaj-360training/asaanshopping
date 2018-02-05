@@ -11,6 +11,7 @@
             <container name="category.view.container" htmlTag="div" htmlClass="category-view" after="-">
                 <block class="Magento\Catalog\Block\Category\View" name="category.image" template="Magento_Catalog::category/image.phtml"/>
                 <block class="Magento\Catalog\Block\Category\View" name="category.description" template="Magento_Catalog::category/description.phtml"/>
+                <block class="Magento\Catalog\Block\Category\View" name="category.search" template="Magento_Catalog::category/search.phtml"/>
                 <block class="Magento\Catalog\Block\Category\View" name="category.cms" template="Magento_Catalog::category/cms.phtml"/>
             </container>
         </referenceContainer>
@@ -20,7 +21,6 @@
                     <block class="Magento\Framework\View\Element\RendererList" name="category.product.type.details.renderers" as="details.renderers">
                         <block class="Magento\Framework\View\Element\Template" as="default"/>
                     </block>
-
                     <arguments>
                         <argument name="hide_toolbar" xsi:type="boolean">true</argument>
                     </arguments>
