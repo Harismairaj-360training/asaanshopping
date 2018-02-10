@@ -12,16 +12,22 @@ require([
       buttons: [],
     }, $('#reviewModal'));
 
-    modal({
-      type: 'popup',
-      responsive: true,
-      innerScroll: false,
-      buttons: [],
-    }, $('#descriptionModal'));
+    var isDescAvailable = (typeof jQuery('#descriptionModal').html() != "undefined");
+    if(isDescAvailable)
+    {
+      modal({
+        type: 'popup',
+        responsive: true,
+        innerScroll: false,
+        buttons: [],
+      }, $('#descriptionModal'));
+    }
 
     openDescModal = function()
     {
-      $('#descriptionModal').modal("openModal");
+      if(isDescAvailable)
+      {
+        $('#descriptionModal').modal("openModal");
+      }
     }
-    //$('#descriptionModal').modal("openModal");
 });

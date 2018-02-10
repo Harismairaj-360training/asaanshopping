@@ -9,6 +9,8 @@
                     <argument name="asset_id" xsi:type="string">iult</argument>
                 </arguments>
             </block>
-        </referenceBlock>    
+        </referenceBlock>
+        <referenceBlock name="top.search" remove="true" />
+        <referenceBlock name="advanced-search-link" remove="true"/>
     </body>
 </page>
