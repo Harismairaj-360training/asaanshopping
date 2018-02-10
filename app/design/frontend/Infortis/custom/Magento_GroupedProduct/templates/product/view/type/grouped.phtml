@@ -35,7 +35,8 @@
         <tbody>
             <tr>
                 <td data-th="<?= $block->escapeHtml(__('Product Name')) ?>" class="col item">
-                    <strong class="product-item-name"><?= $block->escapeHtml($_item->getName()) ?></strong>
+                    <h4 class="product-item-name"><?= $block->escapeHtml($_item->getName()) ?></h4>
+                    <div class="text-muted"><?php echo "Short description short description short description short description short description"; ?></div>
                     <?php if ($block->getCanShowProductPrice($_product)): ?>
                         <?php if ($block->getCanShowProductPrice($_item)): ?>
                             <?= /* @escapeNotVerified */ $block->getProductPrice($_item) ?>

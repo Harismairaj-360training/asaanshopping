@@ -1,3 +1,9 @@
+.product.attribute.description,
+.product.attribute.overview,
+.text-muted{
+    color: #999;
+    font-size: 13px;
+}
 .table.grouped .col.qty{
     text-align: right;
 }
