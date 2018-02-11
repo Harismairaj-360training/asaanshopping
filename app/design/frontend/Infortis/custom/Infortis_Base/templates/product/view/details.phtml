@@ -2,7 +2,7 @@
 // @codingStandardsIgnoreFile
 ?>
 <?php if ($detailedInfoGroup = $block->getGroupChildNames('detailed_info', 'getChildHtml')):?>
-    <div class="product info detailed">
+    <div class="product info detailed" id="detailsModal" style="display:none;">
         <?php $layout = $block->getLayout(); ?>
         <div>
             <?php foreach ($detailedInfoGroup as $name):?>
@@ -16,7 +16,7 @@
                     switch ($name) {
                       case 'product.info.description':
                       ?>
-                      <div id="descriptionModal" style="display:none;">
+                      <div class="descriptions">
                           <?php /* @escapeNotVerified */ echo $html; ?>
                       </div>
                       <?php
@@ -24,7 +24,7 @@
 
                       case 'reviews.tab':
                       ?>
-                      <div id="reviewModal" style="display:none;">
+                      <div class="reviews">
                           <?php /* @escapeNotVerified */ echo $html; ?>
                       </div>
                       <?php

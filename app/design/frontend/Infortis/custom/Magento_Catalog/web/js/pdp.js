@@ -1,4 +1,4 @@
-var openDescModal;
+var openDetailsModal;
 require([
   'jquery',
   'Magento_Ui/js/modal/modal',
@@ -10,24 +10,10 @@ require([
       responsive: true,
       innerScroll: false,
       buttons: [],
-    }, $('#reviewModal'));
+    }, $('#detailsModal'));
 
-    var isDescAvailable = (typeof jQuery('#descriptionModal').html() != "undefined");
-    if(isDescAvailable)
+    openDetailsModal = function()
     {
-      modal({
-        type: 'popup',
-        responsive: true,
-        innerScroll: false,
-        buttons: [],
-      }, $('#descriptionModal'));
-    }
-
-    openDescModal = function()
-    {
-      if(isDescAvailable)
-      {
-        $('#descriptionModal').modal("openModal");
-      }
+      $('#detailsModal').modal("openModal");
     }
 });
