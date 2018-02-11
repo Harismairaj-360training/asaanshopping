@@ -1,0 +1,43 @@
+<?php
+/**
+ * @var $block \AsaanShopping\SearchByLocation\Block\Search
+ */
+
+    $baseUrl = $block->getUrl();
+
+    //echo $block->googleapi();
+
+
+?>
+
+<div>
+    <form>
+        <input name="search" value=""><br>
+        <input name="submit" type="submit" value="Submit">
+    </form>
+
+</div>
+
+
+<script type="text/javascript">
+
+        var baseUrl         = "<?php echo $baseUrl; ?>";
+        //alert("m here");
+
+        jQuery('form').on('submit', function (e) {
+
+            e.preventDefault();
+
+            jQuery.ajax({
+                type: 'post',
+                url: baseUrl+'searchresultapi/index/searchapi/',
+                data: jQuery('form').serialize(),
+                success: function () {
+                    alert('form was submitted');
+                }
+            });
+
+        });
+
+
+</script>
