@@ -4,7 +4,7 @@
  */
 
 namespace Infortis\Base\Block\Html;
-
+ 
 use Infortis\Base\Helper\Data as HelperData;
 use Magento\Framework\View\Element\Template\Context;
 
