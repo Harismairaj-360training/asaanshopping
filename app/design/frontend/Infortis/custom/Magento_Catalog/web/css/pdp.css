@@ -1,3 +1,88 @@
+.block.review-add .legend.legend.review-legend{
+    text-transform: capitalize;
+    font-size: 40px;
+    text-decoration: underline;
+    font-weight: bold;
+}
+.block.review-add .legend.legend.review-legend strong {
+    display: none;
+}
+
+.block.review-add label.label, legend.label {
+    display: block !important;
+    float: none !important;
+    clear: both;
+    width: 100% !important;
+    text-align: left !important;
+}
+
+.block.review-add fieldset.field, .block.review-add div.field {
+    margin-bottom: 10px !important;
+}
+.block.review-add button.action.submit.primary {
+    background-color: #222 !important;
+    color: #fff !important;
+    padding: 10px 30px;
+}
+.block.review-add {
+    padding: 30px;
+    margin-bottom: -40px;
+}
+
+ol.items.review-items li p.review-date{
+    display:inline;
+    border-left:1px dotted #ccc;
+    padding-left:3px;
+}
+ol.items.review-items li p.review-author {
+  display:inline;
+}
+
+ol.items.review-items li {
+  position: relative;
+}
+ol.items.review-items li .review-title {
+  display: none;
+}
+ol.items.review-items li .review-ratings {
+  float: none;
+  position: absolute;
+  right: 0;
+  font-size: 12px;
+  color: #ccc;
+  width: 150px;
+}
+ol.items.review-items li .review-content{
+  margin: 0 160px 0 0 !important;
+}
+
+ol.items.review-items li .review-details{
+  margin: 0px 160px 0 0 !important;
+  color: #ccc;
+  font-size: 12px;
+}
+ol.items.review-items li .review-details strong {
+    font-weight: 400;
+}
+
+.modal-content div.content {
+  background: none !important;
+}
+
+.product-reviews-summary {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.product-reviews-summary .reviews-actions{
+    display: block !important;
+    text-align: right;
+    margin-right:12px;
+}
+.product-reviews-summary .rating-summary {
+    display: block !important;
+}
+
 .product-info-stock-sku{
     border-bottom:1px dashed #ffcd18 !important;
 }
@@ -48,13 +133,11 @@
   padding: 10px 0;
   border-bottom: 1px solid #eee;
   display: block;
+  position: relative;
 }
 .product-title .page-title{
   display: inline-block;
-  margin: 0 !important;
-}
-.product.info.detailed{
-    display: none;
+  margin: 0 105px 0 0 !important;
 }
 .product-details-head{
     display: inline-block;

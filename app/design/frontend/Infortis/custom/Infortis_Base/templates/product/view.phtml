@@ -22,8 +22,9 @@ $prod = $block->getProduct();
             <?php // TODO: remove old classes such as "product-shop" ?>
             <div class="product-primary-column product-shop product-info-main">
 
-                <a href="javascript:;" onclick="openDescModal();" class="product-title">
+                <a href="javascript:;" onclick="openDetailsModal();" class="product-title">
                   <?php echo $block->getChildHtml('page.main.title'); ?>
+                  <?php echo $block->getChildHtml('product.info.review'); ?>
                 </a>
                 <?php echo $block->getChildHtml('product.info.main'); ?>
 

@@ -1,0 +1,10 @@
+body.catalog-category-view .product-reviews-summary.short{
+  background-color: rgba(30, 195, 123, 1);
+  margin-top: 0;
+  padding: 5px;
+  color: #fff;
+}
+
+body.catalog-category-view .rating-summary .rating-result:before{
+  color: #fff;
+}

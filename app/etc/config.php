@@ -2,6 +2,7 @@
 return array (
   'modules' => 
   array (
+    'AsaanShopping_SearchByLocation' => 1,
     'Infortis_Infortis' => 1,
     'Infortis_Brands' => 1,
     'Infortis_Cgen' => 1,
