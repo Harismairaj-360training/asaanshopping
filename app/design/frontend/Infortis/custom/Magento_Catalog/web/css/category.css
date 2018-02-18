@@ -1,3 +1,45 @@
+/* begin - filter */
+@media only screen and (min-width: 768px){
+  body.catalog-category-view .column.main{
+   padding-top: 0 !important;
+  }
+}
+body.catalog-category-view .filter-options-content{
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    -webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+body.catalog-category-view .filter-options-item {
+    padding-bottom: 0 !important;
+}
+body.catalog-category-view .filter-options{
+  margin-top: 10px !important;
+}
+body.catalog-category-view .filter-content {
+    margin-top: 0 !important;
+}
+body.catalog-category-view div#layered-filter-block {
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    -webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    padding: 10px;
+    border-top: none;
+}
+body.catalog-category-view strong.block-subtitle.filter-current-subtitle {
+    display: none;
+}
+body.catalog-category-view .filter-current ol.items {
+    background-color: #f6f6f6;
+    border-radius: 5px;
+    border: 1px solid #eee;
+}
+/* end - filter */
+
+body.catalog-category-view li.item.product.product-item {
+    border: none;
+    padding-top: 0;
+}
+
 body.catalog-category-view .product-reviews-summary.short{
   background-color: rgba(30, 195, 123, 1);
   margin-top: 0;
@@ -7,6 +49,25 @@ body.catalog-category-view .product-reviews-summary.short{
   display: inline-block !important;
 }
 
+body.catalog-category-view .tile-image{
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center top;
+  padding: 100px;
+  background-color: #f6f6f6;
+  -webkit-transition: all 400ms ease-in-out;
+  -moz-transition: all 400ms ease-in-out;
+  -o-transition: all 400ms ease-in-out;
+  transition: all 400ms ease-in-out;
+}
+body.catalog-category-view .ban.ban-effect-1:hover .tile-image{
+  transform: scale(1.2);
+}
 body.catalog-category-view .rating-summary .rating-result:before{
   color: #fff;
 }
