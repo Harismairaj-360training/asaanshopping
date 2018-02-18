@@ -4,13 +4,14 @@
  */
   $baseUrl = $block->getUrl();
   //echo $block->googleapi();
+  //$categoryProductsJson = $block->getProductCollection()
 ?>
 
 <div class="search-location header-regular">
   <div class="block block-search search-wrapper size-xl">
-    <div class="field search">
+    <div class="field search exist">
         <div class="control">
-          <input type="text" id="locationSearchField" value="" placeholder="Enter your address to find nearest store..." class="input-text" autocomplete="off">
+          <input type="text" id="locationSearchField" value="Gulistan-E-Jauhor, Block 12, Karachi, Pakistan" placeholder="Enter your address to find nearest store..." class="input-text" autocomplete="off">
         </div>
         <div class="actions">
             <span class="action search">
@@ -26,6 +27,7 @@
 
 <script type="text/javascript">
 var baseUrl = "<?php echo $baseUrl; ?>";
+var addressExist = true;
 var allLocations = [
   [
     "gulistan-e-jauhor, block 18,",
@@ -126,6 +128,7 @@ require([
   });
   $('#locationSearchField').focus(function()
   {
+    $(this).parent().parent().removeClass("exist");
     $("#locationMenuTable_wrapper").parent().removeClass("hide");
     sTb.search($(this).val()).draw();
   });
@@ -140,10 +143,14 @@ require([
     e.preventDefault();
     var rowData = jQuery.extend(true, [], sTb.row(this).data());
     $("#locationMenuTable_wrapper").parent().addClass("hide");
-    rowData.pop();
-    rowData.pop();
-    rowData = String(rowData).replace(/,,/g, ', ');
-    $('#locationSearchField').val(rowData);
+    if(rowData != "")
+    {
+      rowData.pop();
+      rowData.pop();
+      rowData = String(rowData).replace(/,,/g, ', ');
+      $('#locationSearchField').val(rowData);
+      $('#locationSearchField').parent().parent().addClass("exist");
+    }
   });
 });
 
