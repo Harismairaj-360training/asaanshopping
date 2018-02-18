@@ -2,42 +2,161 @@
 /**
  * @var $block \AsaanShopping\SearchByLocation\Block\Search
  */
-
-    $baseUrl = $block->getUrl();
-
-    //echo $block->googleapi();
-
-
+  $baseUrl = $block->getUrl();
+  //echo $block->googleapi();
 ?>
 
-<div>
-    <form>
-        <input name="search" value=""><br>
-        <input name="submit" type="submit" value="Submit">
-    </form>
-
+<div class="search-location header-regular">
+  <div class="block block-search search-wrapper size-xl">
+    <div class="field search">
+        <div class="control">
+          <input type="text" id="locationSearchField" value="" placeholder="Enter your address to find nearest store..." class="input-text" autocomplete="off">
+        </div>
+        <div class="actions">
+            <span class="action search">
+                <span class="icon ic ic-search ib ib-square ib-hover"></span>
+            </span>
+        </div>
+        <div class="autocomplete-menu hide">
+          <table id="locationMenuTable" width="100%"></table>
+        </div>
+    </div>
+  </div>
 </div>
 
-
 <script type="text/javascript">
+var baseUrl = "<?php echo $baseUrl; ?>";
+var allLocations = [
+  [
+    "gulistan-e-jauhor, block 18,",
+    "karachi,",
+    "pakistan",
+    "24.8686617",
+    "67.08562600000005"
+  ],[
+    "gulistan-e-jauhor, block 17,",
+    "karachi,",
+    "pakistan",
+    "24.8686617",
+    "67.08562600000005"
+  ],[
+    "gulistan-e-jauhor, block 16,",
+    "karachi,",
+    "pakistan",
+    "24.8686617",
+    "67.08562600000005"
+  ],[
+    "gulistan-e-jauhor, block 15,",
+    "karachi,",
+    "pakistan",
+    "24.8686617",
+    "67.08562600000005"
+  ],[
+    "gulistan-e-jauhor, block 14,",
+    "karachi,",
+    "pakistan",
+    "24.8686617",
+    "67.08562600000005"
+  ],[
+    "gulistan-e-jauhor, block 13,",
+    "karachi,",
+    "pakistan",
+    "24.8686617",
+    "67.08562600000005"
+  ],[
+    "gulistan-e-jauhor, block 12,",
+    "karachi,",
+    "pakistan",
+    "24.8686617",
+    "67.08562600000005"
+  ],[
+    "gulshan-e-iqbal, block 15,",
+    "karachi,",
+    "pakistan",
+    "24.8686617",
+    "67.08562600000005"
+  ],[
+    "north nazimabad, No. 1,",
+    "karachi,",
+    "pakistan",
+    "24.8686617",
+    "67.08562600000005"
+  ],[
+    "north karachi, No. 1,",
+    "karachi,",
+    "pakistan",
+    "24.8686617",
+    "67.08562600000005"
+  ],[
+    "nazimabad, No. 1,",
+    "karachi,",
+    "pakistan",
+    "24.8686617",
+    "67.08562600000005"
+  ]
+];
+require([
+  'jquery',
+  'Magento_Ui/js/modal/modal',
+  'dataTables',
+  'domReady!'
+], function($, modal, dataTables)
+{
+  var sTb = $('#locationMenuTable').DataTable({
+    "data":allLocations,
+    "info":false,
+    "pageLength": 5,
+    "columns": [
+            { title: "address" },
+            { title: "city" },
+            { title: "country" },
+            { title: "lat" },
+            { title: "lng" }
+        ],
+    "language": {
+        "zeroRecords": "No records."
+      }
+  });
 
-        var baseUrl         = "<?php echo $baseUrl; ?>";
-        //alert("m here");
+  $("#locationSearchField").blur(function()
+  {
+    setTimeout(function(){
+      $("#locationMenuTable_wrapper").parent().addClass("hide");
+    },800);
+  });
+  $('#locationSearchField').focus(function()
+  {
+    $("#locationMenuTable_wrapper").parent().removeClass("hide");
+    sTb.search($(this).val()).draw();
+  });
 
-        jQuery('form').on('submit', function (e) {
+  $('#locationSearchField').keyup(function()
+  {
+    sTb.search($(this).val()).draw();
+  });
 
-            e.preventDefault();
+  $('#locationMenuTable').on('click','tbody tr', function(e)
+  {
+    e.preventDefault();
+    var rowData = jQuery.extend(true, [], sTb.row(this).data());
+    $("#locationMenuTable_wrapper").parent().addClass("hide");
+    rowData.pop();
+    rowData.pop();
+    rowData = String(rowData).replace(/,,/g, ', ');
+    $('#locationSearchField').val(rowData);
+  });
+});
 
-            jQuery.ajax({
-                type: 'post',
-                url: baseUrl+'searchresultapi/index/searchapi/',
-                data: jQuery('form').serialize(),
-                success: function () {
-                    alert('form was submitted');
-                }
-            });
-
-        });
-
-
+/* alert("m here");
+jQuery('form').on('submit', function (e) {
+    e.preventDefault();
+    jQuery.ajax({
+        type: 'post',
+        url: baseUrl+'searchresultapi/index/searchapi/',
+        data: jQuery('form').serialize(),
+        success: function () {
+            alert('form was submitted');
+        }
+    });
+}); */
 </script>
