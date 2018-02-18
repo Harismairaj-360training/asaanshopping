@@ -1,6 +1,6 @@
 var config = {
     paths:{
-			dataTables:'AsaanShopping_SearchByLocation/js/dataTables',
+			dataTables:'AsaanShopping_SearchByLocation/js/datatables',
 		},
     shim: {
         'dataTables':{
