@@ -35,6 +35,11 @@ use Magento\Framework\App\Action\Action;
     $helperImage = $this->helper('Infortis\Infortis\Helper\Image');
     $helperAddToLinks = $this->helper('Infortis\Base\Helper\AddToLinks');
 
+    $objectManager   =  \Magento\Framework\App\ObjectManager::getInstance();
+    $media_url   =  $objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+    $catalog_url  = "catalog/product";
+    $image_full_path = $media_url.$catalog_url;
+
     // Get mode
     $mode = $block->getData('mode');
     if ($mode === NULL)
@@ -188,13 +193,20 @@ use Magento\Framework\App\Action\Action;
     <div class="products wrapper<?php if ($wrapperClasses) echo $wrapperClasses; ?>">
         <ol class="products list items product-items<?php if ($itemgridClasses) echo $itemgridClasses; ?>">
             <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
-            <?php foreach ($_productCollection as $_product): ?>
+            <?php foreach ($_productCollection as $_product):
+              $imgUrl = $_product->getResource()->getAttribute('image')->getFrontend()->getValue($_product);
+              $imgstyle = '';
+              if(isset($imgUrl))
+              {
+                $imgstyle = 'style="background-image:url('.$image_full_path.$imgUrl.')"';
+              }
+            ?>
             <li class="item product product-item">
 
                 <!-- Begin - Vendor specified category -->
                 <a href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>">
                   <div class="ban ban-effect-1 ban-caption-fade-out">
-                    <img class="image" src="<?php echo $helperImage->getImageUrl($_product); ?>" alt="Banner">
+                    <div class="tile-image" <?php echo $imgstyle;?>></div>
                     <div class="cap cap-bottom-left" style="background-color: rgba(30, 195, 123, 0.7);">
                       <h2><?php /* @escapeNotVerified */ echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?></h3>
                       <p><?php /* @escapeNotVerified */ echo $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description') ?></p>
