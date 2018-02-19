@@ -35,8 +35,11 @@ class Searchapi extends \Magento\Framework\App\Action\Action
      */
     public function execute()
     {
+        $parms          =       $this->getRequest()->getPost();
+        $getCatUrl      =       $this->helper->searchAjaxRequest($parms);
+
         try {
-            return $this->jsonResponse('your response');
+            return $this->jsonResponse($getCatUrl);
         } catch (\Magento\Framework\Exception\LocalizedException $e) {
             return $this->jsonResponse($e->getMessage());
         } catch (\Exception $e) {

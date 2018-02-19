@@ -8,6 +8,7 @@ class Search extends \Magento\Framework\View\Element\Template
     protected $_productCollectionFactory;
     protected $_categoryFactory;
     protected $jsonHelper;
+    protected $helper;
 
     /**
      * Constructor
@@ -19,12 +20,14 @@ class Search extends \Magento\Framework\View\Element\Template
         \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Framework\Json\Helper\Data $jsonHelper,
-        \Magento\Framework\View\Element\Template\Context $context
+        \Magento\Framework\View\Element\Template\Context $context,
+        \AsaanShopping\SearchByLocation\Helper\Data $helper
     )
     {
         $this->_categoryFactory = $categoryFactory;
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->jsonHelper = $jsonHelper;
+        $this->helper = $helper;
         parent::__construct($context);
     }
 
@@ -60,5 +63,11 @@ class Search extends \Magento\Framework\View\Element\Template
         return $this->getResponse()->representJson(
             $this->jsonHelper->jsonEncode($response)
         );
+    }
+
+    public function getSession(){
+
+        $this->helper->getAddressSession();
+
     }
 }
