@@ -2,17 +2,12 @@
 /**
  * @var $block \AsaanShopping\SearchByLocation\Block\Search
  */
-
-    $baseUrl = $block->getUrl();
-  //echo $block->googleapi();
-  //$categoryProductsJson = $block->getProductCollection();
-    $getAddressSeeion = $block->getSession();
-/*
-    echo"<pre>";
-    print_r($getAddressSeeion);
-    echo"</pre>";
-    exit;
-*/
+  $baseUrl = $block->getUrl();
+//$categoryProductsJson = $block->getProductCollection();
+  $getAddress = $block->getAddressSession();
+  echo "<pre>";
+  print_r($getAddress);
+  echo "</pre>";
 ?>
 
 <div class="search-location header-regular">
@@ -26,152 +21,72 @@
                 <span class="icon ic ic-search ib ib-square ib-hover"></span>
             </span>
         </div>
-        <div class="autocomplete-menu hide">
-          <table id="locationMenuTable" width="100%"></table>
-        </div>
     </div>
   </div>
 </div>
 
 <script type="text/javascript">
 var baseUrl = "<?php echo $baseUrl; ?>";
-var addressExist = true;
-var allLocations = [
-  [
-    "gulistan-e-jauhor, block 18,",
-    "karachi,",
-    "pakistan",
-    "24.8686617",
-    "67.08562600000005"
-  ],[
-    "gulistan-e-jauhor, block 17,",
-    "karachi,",
-    "pakistan",
-    "24.8686617",
-    "67.08562600000005"
-  ],[
-    "gulistan-e-jauhor, block 16,",
-    "karachi,",
-    "pakistan",
-    "24.8686617",
-    "67.08562600000005"
-  ],[
-    "gulistan-e-jauhor, block 15,",
-    "karachi,",
-    "pakistan",
-    "24.8686617",
-    "67.08562600000005"
-  ],[
-    "gulistan-e-jauhor, block 14,",
-    "karachi,",
-    "pakistan",
-    "24.8686617",
-    "67.08562600000005"
-  ],[
-    "gulistan-e-jauhor, block 13,",
-    "karachi,",
-    "pakistan",
-    "24.8686617",
-    "67.08562600000005"
-  ],[
-    "gulistan-e-jauhor, block 12,",
-    "karachi,",
-    "pakistan",
-    "24.8686617",
-    "67.08562600000005"
-  ],[
-    "gulshan-e-iqbal, block 15,",
-    "karachi,",
-    "pakistan",
-    "24.8686617",
-    "67.08562600000005"
-  ],[
-    "north nazimabad, No. 1,",
-    "karachi,",
-    "pakistan",
-    "24.8686617",
-    "67.08562600000005"
-  ],[
-    "north karachi, No. 1,",
-    "karachi,",
-    "pakistan",
-    "24.8686617",
-    "67.08562600000005"
-  ],[
-    "nazimabad, No. 1,",
-    "karachi,",
-    "pakistan",
-    "24.8686617",
-    "67.08562600000005"
-  ]
-];
-require([
-  'jquery',
-  'Magento_Ui/js/modal/modal',
-  'dataTables',
-  'domReady!'
-], function($, modal, dataTables)
+var autocomplete;
+var selectedLocation = {};
+function onSubmit()
 {
-  var sTb = $('#locationMenuTable').DataTable({
-    "data":allLocations,
-    "info":false,
-    "pageLength": 5,
-    "columns": [
-            { title: "address" },
-            { title: "city" },
-            { title: "country" },
-            { title: "lat" },
-            { title: "lng" }
-        ],
-    "language": {
-        "zeroRecords": "No records."
+  jQuery.ajax({
+      type: 'post',
+      showLoader:true,
+      url: baseUrl+'searchresultapi/index/searchapi/',
+      data: selectedLocation,
+      success: function (data)
+      {
+        console.log(data);
       }
   });
-
-  $("#locationSearchField").blur(function()
+}
+function initAutocomplete()
+{
+  var defaultBounds = new google.maps.LatLngBounds(
+    new google.maps.LatLng(24.738141899609808, 67.08159251411485),
+    new google.maps.LatLng(24.78802243953795, 66.97310252388047)
+  );
+  autocomplete = new google.maps.places.Autocomplete(document.getElementById('locationSearchField'), {
+    bounds: defaultBounds,
+    strictBounds: true,
+    types: ['geocode'],
+    componentRestrictions: {country: "pk"}
+   });
+  autocomplete.addListener('place_changed', fillInAddress);
+}
+function fillInAddress()
+{
+  selectedLocation = {
+    categoryId:4,
+    address:'',
+    lat:'',
+    lng:''
+  };
+  var place = autocomplete.getPlace();
+  selectedLocation.address = String(document.getElementById('locationSearchField').value);
+  selectedLocation.lat = place.geometry.location.lat();
+  selectedLocation.lng = place.geometry.location.lng();
+  onSubmit();
+}
+function geolocate()
+{
+  if (navigator.geolocation)
   {
-    setTimeout(function(){
-      $("#locationMenuTable_wrapper").parent().addClass("hide");
-    },800);
-  });
-  $('#locationSearchField').focus(function()
-  {
-    $(this).parent().parent().removeClass("exist");
-    $("#locationMenuTable_wrapper").parent().removeClass("hide");
-    sTb.search($(this).val()).draw();
-  });
-
-  $('#locationSearchField').keyup(function()
-  {
-    sTb.search($(this).val()).draw();
-  });
-
-  $('#locationMenuTable').on('click','tbody tr', function(e)
-  {
-    e.preventDefault();
-    var rowData = jQuery.extend(true, [], sTb.row(this).data());
-    $("#locationMenuTable_wrapper").parent().addClass("hide");
-    if(rowData != "")
+    navigator.geolocation.getCurrentPosition(function(position)
     {
-      rowData.pop();
-      rowData.pop();
-      rowData = String(rowData).replace(/,,/g, ', ');
-      $('#locationSearchField').val(rowData);
-      $('#locationSearchField').parent().parent().addClass("exist");
-    }
-  });
-});
-
-/* alert("m here");
-jQuery('form').on('submit', function (e) {
-    e.preventDefault();
-    jQuery.ajax({
-        type: 'post',
-        url: baseUrl+'searchresultapi/index/searchapi/',
-        data: jQuery('form').serialize(),
-        success: function () {
-            alert('form was submitted');
-        }
+      var geolocation = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+      var circle = new google.maps.Circle({
+        center: geolocation,
+        radius: position.coords.accuracy
+      });
+      autocomplete.setBounds(circle.getBounds());
     });
-}); */
+  }
+}
 </script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkzuTcqRg86jAPknuUwAmvW0bpzd2TJU0&libraries=places&callback=initAutocomplete" async defer></script>

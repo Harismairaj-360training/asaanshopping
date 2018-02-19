@@ -65,29 +65,22 @@ class Data extends AbstractHelper
         parent::__construct($context);
     }
 
-
     public function searchAjaxRequest($data= '')
     {
-        $categoryId         =       '4';//$data['category_id'];
-        $address            =       'address';//$data['address'];
-        $street             =       'street';//$address['street'];
-        $city               =       'city';//$address['city'];
-        $country            =       'country';//$address['country'];
-        $lat                =       'lat';//$address['lat'];
-        $lng                =       'lng';//$address['lng'];
+        $categoryId         =       $data['categoryId'];
+        $address            =       $data['address'];
+        $lat                =       $data['lat'];
+        $lng                =       $data['lng'];
 
         //Set Data into session
         $this->session->setData("categoryId",$categoryId);
-        $this->session->setData("street",$street);
-        $this->session->setData("city",$city);
-        $this->session->setData("country",$country);
+        $this->session->setData("address",$address);
         $this->session->setData("lat",$lat);
         $this->session->setData("lng",$lng);
 
         $categoryUrl        =       $this->getCatUrlById($categoryId);
 
         return $categoryUrl;
-
     }
 
 
@@ -102,25 +95,17 @@ class Data extends AbstractHelper
     function getAddressSession()
     {
         $categoryId     = $this->session->getData("categoryId");
-        $street         = $this->session->getData("street");
-        $city           = $this->session->getData("city");
-        $country        = $this->session->getData("country");
+        $address        = $this->session->getData("address");
         $lat            = $this->session->getData("lat");
         $lng            = $this->session->getData("lng");
 
-        $AddressArray      =   array(
-            'categoryId'        =>      $categoryId,
-            'street'            =>      $street,
-            'city'              =>      $city,
-            'country'           =>      $country,
-            'lat'               =>      $lat,
-            'lng'               =>      $lng,
+        $AddressArray     =   array(
+            'categoryId'  =>      $categoryId,
+            'address'     =>      $address,
+            'lat'         =>      $lat,
+            'lng'         =>      $lng
         );
 
         return $AddressArray;
     }
-
-
-
-
 }
