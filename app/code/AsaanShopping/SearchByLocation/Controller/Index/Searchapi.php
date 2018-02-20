@@ -36,15 +36,26 @@ class Searchapi extends \Magento\Framework\App\Action\Action
     public function execute()
     {
         $parms          =       $this->getRequest()->getPost();
-        $getCatUrl      =       $this->helper->searchAjaxRequest($parms);
-
+        $result      =       $this->helper->searchAjaxRequest($parms);
         try {
-            return $this->jsonResponse($getCatUrl);
+            return $this->jsonResponse(array(
+              "status"=>true,
+              "message"=>"",
+              "response"=>$result
+            ));
         } catch (\Magento\Framework\Exception\LocalizedException $e) {
-            return $this->jsonResponse($e->getMessage());
+            return $this->jsonResponse(array(
+              "status"=>true,
+              "message"=>$e->getMessage(),
+              "response"=>""
+            ));
         } catch (\Exception $e) {
             $this->logger->critical($e);
-            return $this->jsonResponse($e->getMessage());
+            return $this->jsonResponse(array(
+              "status"=>true,
+              "message"=>$e->getMessage(),
+              "response"=>""
+            ));
         }
     }
 
@@ -53,7 +64,7 @@ class Searchapi extends \Magento\Framework\App\Action\Action
      *
      * @return \Magento\Framework\Controller\ResultInterface
      */
-    public function jsonResponse($response = '')
+    public function jsonResponse($response)
     {
         return $this->getResponse()->representJson(
             $this->jsonHelper->jsonEncode($response)

@@ -5,7 +5,7 @@
   $baseUrl = $block->getUrl();
 //$categoryProductsJson = $block->getProductCollection();
   $getAddress = $block->getAddressSession();
-  echo "<pre>";
+  echo "<pre>Here:";
   print_r($getAddress);
   echo "</pre>";
 ?>
@@ -36,9 +36,12 @@ function onSubmit()
       showLoader:true,
       url: baseUrl+'searchresultapi/index/searchapi/',
       data: selectedLocation,
-      success: function (data)
+      success: function (payload)
       {
-        console.log(data);
+        if(payload.status)
+        {
+          window.location.href = payload.response;
+        }
       }
   });
 }

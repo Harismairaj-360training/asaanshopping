@@ -65,9 +65,8 @@ class Search extends \Magento\Framework\View\Element\Template
         );
     }
 
-    public function getSession(){
-
-        $this->helper->getAddressSession();
-
+    public function getAddressSession()
+    {
+        return $this->helper->getAddressSession();
     }
 }

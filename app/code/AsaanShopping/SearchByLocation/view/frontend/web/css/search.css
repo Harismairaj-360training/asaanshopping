@@ -1,4 +1,26 @@
-/* begin - pdp top search */
+/* begin - google autocomplete-menu */
+.pac-item {
+  padding: 18px;
+  border-top: 1px solid #f3f3f3;
+  cursor: pointer;
+}
+
+.pac-container{
+  border-top:none;
+  border-right: 1px solid #ffcd18;
+  border-bottom: 4px solid #ffcd18;
+  border-left: 1px solid #ffcd18;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.pac-logo:after{
+  background-color:#f3f3f3;
+}
+/* end - google autocomplete-menu */
+
+/* begin - top search */
 .at-top-search{
   position: relative;;
   width: 100%;
@@ -29,7 +51,7 @@
     background: none !important;
     color:#fff !important;
 }
-/* end - pdp top search */
+/* end - top search */
 
 /* begin - Search location */
 .search-location .field.search{

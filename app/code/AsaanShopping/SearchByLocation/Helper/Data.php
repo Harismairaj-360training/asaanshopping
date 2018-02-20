@@ -72,7 +72,7 @@ class Data extends AbstractHelper
         $lat                =       $data['lat'];
         $lng                =       $data['lng'];
 
-        //Set Data into session
+        //  Set Data into session
         $this->session->setData("categoryId",$categoryId);
         $this->session->setData("address",$address);
         $this->session->setData("lat",$lat);
@@ -92,7 +92,7 @@ class Data extends AbstractHelper
         return $catUrl;
     }
 
-    function getAddressSession()
+    public function getAddressSession()
     {
         $categoryId     = $this->session->getData("categoryId");
         $address        = $this->session->getData("address");
