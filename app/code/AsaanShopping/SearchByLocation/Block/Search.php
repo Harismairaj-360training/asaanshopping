@@ -69,4 +69,11 @@ class Search extends \Magento\Framework\View\Element\Template
     {
         return $this->helper->getAddressSession();
     }
+
+    public function getCatUrlByID($categoryId='')
+    {
+        return $this->helper->getCatUrlById($categoryId);
+    }
+
+
 }
