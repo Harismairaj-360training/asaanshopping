@@ -57,6 +57,10 @@
 .search-location .field.search{
   border-bottom: 4px solid #ffcd18;
 }
+.search-location .action.search{
+  height: 60px !important;
+  line-height: 60px !important;
+}
 .search-location .action.search .icon::before{
   color:#ffcd18
 }
@@ -126,7 +130,6 @@
 /* end - autocomplete menu */
 
 /* begin - if exist autocomplete menu */
-.search-location .field.search.exist .actions {display: none;}
 .search-location .field.search.exist input.input-text{
     text-indent:10px;
     color: #ffcd18 !important;

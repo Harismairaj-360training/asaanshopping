@@ -7,6 +7,9 @@
 .messages>div {
     margin: 0 !important;
 }
+.loading-mask {
+    background: rgba(255, 205, 24,0.8) !important;
+}
 .loading-mask .loader > img {
   height: 150px;
   background-color: #fff;
@@ -14,4 +17,14 @@
   box-shadow: 0 5px 15px rgba(0,0,0,0.3);
   -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+.fix-bottom-error .mage-error{
+    color:#fff !important;
+    position: fixed;
+    bottom: 0;
+    background-color: #e02b27;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: 10px;
 }
