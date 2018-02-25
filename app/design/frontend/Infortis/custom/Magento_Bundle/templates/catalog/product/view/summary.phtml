@@ -16,22 +16,6 @@
      class="block-bundle-summary"
      data-mage-init='{"sticky":{"container": ".product-add-form"}}'>
     <div class="content">
-        <div class="bundle-info">
-            <?= $block->getImage($_product, 'bundled_product_customization_page')->toHtml() ?>
-            <div class="product-details">
-                <strong class="product name"><?= $block->escapeHtml($_product->getName()) ?></strong>
-                <?php if ($_product->getIsSalable()): ?>
-                    <p class="available stock" title="<?= /* @escapeNotVerified */ __('Availability') ?>">
-                        <span><?= /* @escapeNotVerified */ __('In stock') ?></span>
-                    </p>
-                <?php else: ?>
-                    <p class="unavailable stock" title="<?= /* @escapeNotVerified */ __('Availability') ?>">
-                        <span><?= /* @escapeNotVerified */ __('Out of stock') ?></span>
-                    </p>
-                <?php endif; ?>
-                <?= $block->getChildHtml('', true) ?>
-            </div>
-        </div>
         <div class="bundle-summary">
             <strong class="subtitle"><?= /* @escapeNotVerified */ __('Summary') ?></strong>
             <div id="bundle-summary" data-container="product-summary">
@@ -47,6 +31,20 @@
                 </script>
             </div>
         </div>
+        <div class="bundle-info">
+            <div class="product-details">
+                <?php if ($_product->getIsSalable()): ?>
+                    <p class="available stock" title="<?= /* @escapeNotVerified */ __('Availability') ?>">
+                        <span><?= /* @escapeNotVerified */ __('In stock') ?></span>
+                    </p>
+                <?php else: ?>
+                    <p class="unavailable stock" title="<?= /* @escapeNotVerified */ __('Availability') ?>">
+                        <span><?= /* @escapeNotVerified */ __('Out of stock') ?></span>
+                    </p>
+                <?php endif; ?>
+                <?= $block->getChildHtml('', true) ?>
+            </div>
+        </div>
     </div>
 </div>
 <script type="text/x-magento-init">
@@ -58,7 +56,7 @@
                 "slideBackSelector": ".action.customization.back",
                 "bundleProductSelector": "#bundleProduct",
                 "bundleOptionsContainer": ".product-add-form"
-                ,"autostart": true
+                ,"autostart": false
             }
         }
     }
