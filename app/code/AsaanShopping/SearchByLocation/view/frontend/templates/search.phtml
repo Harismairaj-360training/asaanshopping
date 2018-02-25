@@ -97,7 +97,7 @@ function geolocate()
 
 function initMarkerMapView()
 {
-  if(googleMapWithMarker != "undefined")
+  if(typeof googleMapWithMarker != "undefined")
   {
     var map = new google.maps.Map(document.getElementById(googleMapWithMarker.elmId), {
       zoom: 16,
