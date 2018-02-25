@@ -12,6 +12,11 @@ $prod = $block->getProduct();
 <div class="product-view product-columns-wrapper">
 
   <div class="product-details-head">
+    <div class="container">
+      <div class="inner-container">
+          <div class="pdp-image" style="background-image:url('<?php echo $image_full_path.$prod->getResource()->getAttribute('image')->getFrontend()->getValue($prod); ?>')"></div>
+      </div>
+    </div>
     <div class="bg-image" style="background-image:url('<?php echo $image_full_path.$prod->getResource()->getAttribute('image')->getFrontend()->getValue($prod); ?>')"></div>
     <div class="bg-color"></div>
   </div>

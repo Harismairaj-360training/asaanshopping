@@ -2,6 +2,7 @@
 // @codingStandardsIgnoreFile
 ?>
 <?php
+    $prod = $block->getProduct();
     $theme = $this->helper('Infortis\Base\Helper\Data');
     $innerContainerClasses = '';
     $jsScriptInit = '';
@@ -38,6 +39,31 @@
 ?>
 <?php if ($detailedInfoGroup = $block->getGroupChildNames('detailed_info', 'getChildHtml')):?>
   <div id="detailsModal" style="display:none;">
+    <div>
+      <?php
+          $title = $prod->getResource()->getAttribute('name')->getFrontend()->getValue($prod);
+          $lat = $prod->getResource()->getAttribute('latitude')->getFrontend()->getValue($prod);
+          $lng = $prod->getResource()->getAttribute('longitude')->getFrontend()->getValue($prod);
+      ?>
+      <h2><?php echo $title; ?></h2>
+      <?php if(!empty($lat) && !empty($lng)){ ?>
+      <div>
+          <div id="googleMapWithMarker" class="google-map-view"></div>
+          <script>
+            var googleMapWithMarker = {
+              title:"<?php echo $title; ?>",
+              elmId:"googleMapWithMarker",
+              myLatLng:{
+                lat: <?php echo $lat; ?>,
+                lng: <?php echo $lng; ?>
+              }
+            };
+          </script>
+      </div>
+      <?php } ?>
+
+      <br>
+    </div>
     <div class="product info detailed collateral-container">
         <?php $layout = $block->getLayout(); ?>
         <div class="<?php echo $innerContainerClasses; ?>" <?php if ($jsScriptInit): ?>data-mage-init='<?php echo $jsScriptInit; ?>'<?php endif; ?>>

@@ -60,6 +60,7 @@ function initAutocomplete()
     componentRestrictions: {country: "pk"}
    });
   autocomplete.addListener('place_changed', fillInAddress);
+  initMarkerMapView();
 }
 function fillInAddress()
 {
@@ -90,6 +91,22 @@ function geolocate()
         radius: position.coords.accuracy
       });
       autocomplete.setBounds(circle.getBounds());
+    });
+  }
+}
+
+function initMarkerMapView()
+{
+  if(googleMapWithMarker != "undefined")
+  {
+    var map = new google.maps.Map(document.getElementById(googleMapWithMarker.elmId), {
+      zoom: 16,
+      center: googleMapWithMarker.myLatLng
+    });
+    var marker = new google.maps.Marker({
+      position: googleMapWithMarker.myLatLng,
+      map: map,
+      title: googleMapWithMarker.title
     });
   }
 }
