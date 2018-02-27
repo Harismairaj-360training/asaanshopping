@@ -17,6 +17,24 @@
 <?php $_product = $block->getProduct(); ?>
 <?php $_associatedProducts = $block->getAssociatedProducts(); ?>
 <?php $_hasAssociatedProducts = count($_associatedProducts) > 0; ?>
+<?php $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); ?>
+
+<?php
+$filters = "";
+$_levels = $_product->getResource()->getAttribute("level_1");
+if ($_levels){
+    $filters = $_levels->getFrontend()->getValue($_product);
+}
+$_levels = $_product->getResource()->getAttribute("level_2");
+if ($_levels){
+    $filters .= ", ".$_levels->getFrontend()->getValue($_product);
+}
+
+$filters = explode(", ", $filters);
+foreach ($filters as $filter){
+   echo "<a class='filters' href='javascript:;'>".$filter."</a>";
+}
+?>
 
 <div id="validation-message-box" class="fix-bottom-error"></div>
 <div class="table-wrapper grouped">
@@ -24,7 +42,7 @@
         <caption class="table-caption"><?= /* @escapeNotVerified */ __('Grouped product items') ?></caption>
         <thead>
         <tr>
-            <th class="col item" scope="col"></th>
+            <th class="col item" scope="col" colspan="2"></th>
             <?php if ($_product->isSaleable()): ?>
                 <th class="col qty" scope="col"><span class="qty-label"><?= /* @escapeNotVerified */ __('Qty') ?></span></th>
             <?php endif; ?>
@@ -34,9 +52,21 @@
         <?php if ($_hasAssociatedProducts): ?>
         <?php foreach ($_associatedProducts as $_item): ?>
             <tr>
+                <td>
+                  <div class="hide"><?php
+                    $item = $objectManager->get('Magento\Catalog\Model\Product')->load($_item->getId());
+                    $_levels = $item->getResource()->getAttribute("level_1");
+                    if ($_levels){
+                        echo $_levels->getFrontend()->getValue($item);
+                    }
+                    $_levels = $item->getResource()->getAttribute("level_2");
+                    if ($_levels){
+                        echo ", ".$_levels->getFrontend()->getValue($item);
+                    }
+                  ?></div>
+                </td>
                 <td data-th="<?= $block->escapeHtml(__('Product Name')) ?>" class="col item">
                     <h4 class="product-item-name"><?= $block->escapeHtml($_item->getName()) ?></h4>
-                    <div class="text-muted"><?php echo "Short description short description short description short description short description"; ?></div>
                     <?php if ($block->getCanShowProductPrice($_product)): ?>
                         <?php if ($block->getCanShowProductPrice($_item)): ?>
                             <?= /* @escapeNotVerified */ $block->getProductPrice($_item) ?>

@@ -28,7 +28,7 @@ require([
             '<option value="-1">All</option>'+
             '</select>',
           "search": '<small><span class="ic ic-search"></span> FIND THE PRODUCT</small>',
-          "searchPlaceholder": "Enter here that you need"
+          "searchPlaceholder": "Enter product name here.."
         }
       });
 
