@@ -31,9 +31,14 @@ if ($_levels){
 }
 
 $filters = explode(", ", $filters);
+echo "<ul class='filters'>";
+echo "<li><label><input type='radio' name='pFilter' class='action primary' onclick='filterAssociateProducts(event)' checked='checked' value='*'><span>All</span></label></li>";
 foreach ($filters as $filter){
-   echo "<a class='filters' href='javascript:;'>".$filter."</a>";
+  if(!empty($filter)){
+    echo "<li><label><input type='radio' name='pFilter' class='action primary' onclick='filterAssociateProducts(event)' value='".$filter."'><span>".$filter."</span></label></li>";
+  }
 }
+echo "</ul>";
 ?>
 
 <div id="validation-message-box" class="fix-bottom-error"></div>
@@ -42,7 +47,8 @@ foreach ($filters as $filter){
         <caption class="table-caption"><?= /* @escapeNotVerified */ __('Grouped product items') ?></caption>
         <thead>
         <tr>
-            <th class="col item" scope="col" colspan="2"></th>
+            <th class="col item hide" scope="col"></th>
+            <th class="col item" scope="col"></th>
             <?php if ($_product->isSaleable()): ?>
                 <th class="col qty" scope="col"><span class="qty-label"><?= /* @escapeNotVerified */ __('Qty') ?></span></th>
             <?php endif; ?>
@@ -52,8 +58,8 @@ foreach ($filters as $filter){
         <?php if ($_hasAssociatedProducts): ?>
         <?php foreach ($_associatedProducts as $_item): ?>
             <tr>
-                <td>
-                  <div class="hide"><?php
+                <td class="hide">
+                  <div><?php
                     $item = $objectManager->get('Magento\Catalog\Model\Product')->load($_item->getId());
                     $_levels = $item->getResource()->getAttribute("level_1");
                     if ($_levels){

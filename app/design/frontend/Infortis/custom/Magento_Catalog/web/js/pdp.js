@@ -1,4 +1,4 @@
-var openDetailsModal;
+var openDetailsModal,filterAssociateProducts;
 require([
   'jquery',
   'Magento_Ui/js/modal/modal',
@@ -6,20 +6,8 @@ require([
   'domReady!'
 ], function($, modal, datatables)
   {
-    modal({
-      type: 'popup',
-      responsive: true,
-      innerScroll: false,
-      buttons: [],
-    }, $('#detailsModal'));
-
-    openDetailsModal = function()
-    {
-      $('#detailsModal').modal("openModal");
-    }
-
     try{
-      $("#super-product-table").DataTable({
+      var productTable = $("#super-product-table").DataTable({
         "language": {
           "lengthMenu": '<small>PAGE SIZE</small><select>'+
             '<option value="10">10</option>'+
@@ -31,6 +19,40 @@ require([
           "searchPlaceholder": "Enter product name here.."
         }
       });
-
     }catch(e){}
+
+    modal({
+      type: 'popup',
+      responsive: true,
+      innerScroll: false,
+      buttons: [],
+    }, $('#detailsModal'));
+
+    openDetailsModal = function()
+    {
+      $('#detailsModal').modal("openModal");
+    }
+    filterAssociateProducts = function(event)
+    {
+      if(typeof productTable != "undefined")
+      {
+        var value = event.currentTarget.value;
+        if(value == "*")
+        {
+          productTable.columns(0).search(" ").draw();
+        }
+        else
+        {
+          var regex = '\\b'+value+'\\b';
+          if(value.indexOf(' ') >= 0)
+          {
+            productTable.columns(0).search(regex,true,false).draw();
+          }
+          else
+          {
+            productTable.columns(0).search(value).draw();
+          }
+        }
+      }
+    }
 });

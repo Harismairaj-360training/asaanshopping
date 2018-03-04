@@ -50,7 +50,7 @@
       <div>
           <div id="googleMapWithMarker" class="google-map-view"></div>
           <script>
-            var googleMapWithMarker = {
+            var googleMapWithMarkerObj = {
               title:"<?php echo $title; ?>",
               elmId:"googleMapWithMarker",
               myLatLng:{
@@ -58,6 +58,10 @@
                 lng: <?php echo $lng; ?>
               }
             };
+            if(typeof initMarkerMapView != "undefined")
+            {
+              initMarkerMapView();
+            }
           </script>
       </div>
       <?php } ?>

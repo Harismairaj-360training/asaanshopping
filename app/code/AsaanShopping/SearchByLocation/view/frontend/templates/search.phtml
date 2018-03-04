@@ -76,7 +76,7 @@ function fillInAddress()
   selectedLocation.lng = place.geometry.location.lng();
   onSubmit();
 }
-function geolocate()
+/*function geolocate()
 {
   if (navigator.geolocation)
   {
@@ -93,20 +93,20 @@ function geolocate()
       autocomplete.setBounds(circle.getBounds());
     });
   }
-}
+}*/
 
 function initMarkerMapView()
 {
-  if(typeof googleMapWithMarker != "undefined")
+  if(typeof googleMapWithMarkerObj != "undefined")
   {
-    var map = new google.maps.Map(document.getElementById(googleMapWithMarker.elmId), {
+    var map = new google.maps.Map(document.getElementById(googleMapWithMarkerObj.elmId), {
       zoom: 16,
-      center: googleMapWithMarker.myLatLng
+      center: googleMapWithMarkerObj.myLatLng
     });
     var marker = new google.maps.Marker({
-      position: googleMapWithMarker.myLatLng,
+      position: googleMapWithMarkerObj.myLatLng,
       map: map,
-      title: googleMapWithMarker.title
+      title: googleMapWithMarkerObj.title
     });
   }
 }
