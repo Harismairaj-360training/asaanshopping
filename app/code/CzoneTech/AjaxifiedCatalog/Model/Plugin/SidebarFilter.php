@@ -17,9 +17,12 @@ class SidebarFilter
     public function aroundAddFieldToFilter(ProductCollection $collection, \Closure $proceed, $fields, $condition = null)
     {
         // Here we can modify the collection
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $customerSession = $objectManager->get('Magento\Customer\Model\Session');
 
-        //echo "m here";
-        //exit;
+
+        //$getSession     =   $customerSession->getData();
+
         $areaPinPoint = array(24.914380, 67.031566);//Nazimabad
 
         $itemsPinpoints = array(
