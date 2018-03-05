@@ -12,7 +12,4 @@
         <plugin name="CzoneTech_AjaxifiedCatalog_CatalogSearch_Advanced"
                 type="CzoneTech\AjaxifiedCatalog\Plugin\CatalogSearch\Advanced"></plugin>
     </type>
-	<type name="Magento\Catalog\Model\ResourceModel\Product\Collection">
-        <plugin name="sidebarFilters" type="CzoneTech\AjaxifiedCatalog\Model\Plugin\SidebarFilter"/>
-    </type>
 </config>
