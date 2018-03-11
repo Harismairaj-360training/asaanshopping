@@ -39,7 +39,7 @@ require([
         var value = event.currentTarget.value;
         if(value == "*")
         {
-          productTable.columns(0).search(" ").draw();
+          productTable.search('').columns().search('').draw();
         }
         else
         {

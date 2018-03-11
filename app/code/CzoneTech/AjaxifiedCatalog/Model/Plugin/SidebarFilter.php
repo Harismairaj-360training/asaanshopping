@@ -35,7 +35,7 @@ class SidebarFilter
 
         //$collection->addAttributeToFilter('latitude', ['in' => ['24.920733']],'longitude', ['in' => ['67.023393']]);
 
-        $collection->addAttributeToFilter('latitude', array('like' => '%24%'));
+        //$collection->addAttributeToFilter('latitude', array('like' => '%24%'));
         //$collection->addAttributeToFilter('longitude', array('like' => '%67%'));
 
         //$collection->addAttributeToFilter('longitude', ['in' => ['67.088162']]);

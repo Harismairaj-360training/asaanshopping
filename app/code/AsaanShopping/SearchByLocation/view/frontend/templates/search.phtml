@@ -3,9 +3,9 @@
  * @var $block \AsaanShopping\SearchByLocation\Block\Search
  */
   $baseUrl = $block->getUrl();
-    //$categoryProductsJson = $block->getProductCollection();
-    $getAddress     =   $block->getAddressSession();
-    $catUrl         =   $block->getCatUrlByID(4);
+  //$categoryProductsJson = $block->getProductCollection();
+  $getAddress     =   $block->getAddressSession();
+  //$catUrl       =   $block->getCatUrlByID(4);
 
   /*echo "<pre>Here:";
   print_r($getAddress);
@@ -31,22 +31,6 @@
 var baseUrl = "<?php echo $baseUrl; ?>";
 var autocomplete;
 var selectedLocation = {};
-function onSubmit()
-{
-  jQuery.ajax({
-      type: 'post',
-      showLoader:true,
-      url: baseUrl+'searchresultapi/index/searchapi/',
-      data: selectedLocation,
-      success: function (payload)
-      {
-        if(payload.status)
-        {
-          window.location.href = payload.response;
-        }
-      }
-  });
-}
 function initAutocomplete()
 {
   var defaultBounds = new google.maps.LatLngBounds(
@@ -76,6 +60,22 @@ function fillInAddress()
   selectedLocation.lng = place.geometry.location.lng();
   onSubmit();
 }
+function onSubmit()
+{
+  jQuery.ajax({
+      type: 'post',
+      showLoader:true,
+      url: baseUrl+'searchresultapi/index/searchapi/',
+      data: selectedLocation,
+      success: function (payload)
+      {
+        if(payload.status)
+        {
+          window.location.href = payload.response+"?lat="+selectedLocation.lat+"&lng="+selectedLocation.lng;
+        }
+      }
+  });
+}
 /*function geolocate()
 {
   if (navigator.geolocation)
@@ -97,7 +97,7 @@ function fillInAddress()
 
 function initMarkerMapView()
 {
-  if(typeof googleMapWithMarkerObj != "undefined")
+  if(typeof googleMapWithMarkerObj != "undefined" && typeof google != "undefined")
   {
     var map = new google.maps.Map(document.getElementById(googleMapWithMarkerObj.elmId), {
       zoom: 16,

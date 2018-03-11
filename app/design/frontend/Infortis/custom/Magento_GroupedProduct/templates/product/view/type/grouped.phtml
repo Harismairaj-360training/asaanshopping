@@ -19,31 +19,21 @@
 <?php $_hasAssociatedProducts = count($_associatedProducts) > 0; ?>
 <?php
   $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-  $media_url   =  $objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
-  $catalog_url  = "catalog/product";
-  $image_full_path = $media_url.$catalog_url;
-?>
-
-<?php
-$filters = "";
-$_levels = $_product->getResource()->getAttribute("level_1");
-if ($_levels){
-    $filters = $_levels->getFrontend()->getValue($_product);
-}
-$_levels = $_product->getResource()->getAttribute("level_2");
-if ($_levels){
-    $filters .= ", ".$_levels->getFrontend()->getValue($_product);
-}
-
-$filters = explode(", ", $filters);
-echo "<ul class='filters'>";
-echo "<li><label><input type='radio' name='pFilter' class='action primary' onclick='filterAssociateProducts(event)' checked='checked' value='*'><span>All</span></label></li>";
-foreach ($filters as $filter){
-  if(!empty($filter)){
-    echo "<li><label><input type='radio' name='pFilter' class='action primary' onclick='filterAssociateProducts(event)' value='".$filter."'><span>".$filter."</span></label></li>";
+  /*$filters = $_product->getResource()->getAttribute("filters");
+  if ($filters){
+      $filters = $filters->getFrontend()->getValue($_product);
   }
-}
-echo "</ul>";
+  $filters = explode(", ", $filters);
+  echo "<ul class='filters'>";
+  echo "<li><label><input type='radio' name='pFilter' class='action primary' onclick='filterAssociateProducts(event)' checked='checked' value='*'><span>All</span></label></li>";
+  foreach ($filters as $filter){
+    if(!empty($filter)){
+      echo "<li><label><input type='radio' name='pFilter' class='action primary' onclick='filterAssociateProducts(event)' value='".$filter."'><span>".$filter."</span></label></li>";
+    }
+  }
+  echo "</ul>";*/
+  $_availableFilters = "";
+  echo "<ul id='availableFilters' class='filters'></ul>";
 ?>
 
 <div id="validation-message-box" class="fix-bottom-error"></div>
@@ -66,38 +56,29 @@ echo "</ul>";
                 <td class="hide">
                   <div><?php
                     $item = $objectManager->get('Magento\Catalog\Model\Product')->load($_item->getId());
-                    $_levels = $item->getResource()->getAttribute("level_1");
-                    if ($_levels)
+                    $filters = $item->getResource()->getAttribute("filters");
+                    if (!empty($filters))
                     {
-                        echo $_levels->getFrontend()->getValue($item);
-                    }
-                    $_levels = $item->getResource()->getAttribute("level_2");
-                    if ($_levels)
-                    {
-                        echo ", ".$_levels->getFrontend()->getValue($item);
+                        $filters = $filters->getFrontend()->getValue($item);
+                        $_availableFilters .= str_replace(', ',',',$filters);
+                        $_availableFilters .= ",";
+                        echo $filters;
                     }
                   ?></div>
                 </td>
                 <td data-th="<?= $block->escapeHtml(__('Product Name')) ?>" class="col item">
                   <div class="row">
-                    <?php $imgUrl = $item->getResource()->getAttribute('image')->getFrontend()->getValue($item);
-                    $imgstyle = '';
-                    if(isset($imgUrl))
-                    {
-                      $imgstyle = 'style="background-image:url('.$image_full_path.$imgUrl.')"';
-                    ?>
-                      <div class="col-sm-2">
-                        <img class="image" src="<?php echo $image_full_path.$imgUrl; ?>" style="width: 120px;">
-                      </div>
-                      <div class="col-sm-10">
-                    <?php
-                    } ?>
-                    <h3><?= $block->escapeHtml($_item->getName()) ?></h3>
-                    <?php if ($block->getCanShowProductPrice($_product)): ?>
-                        <?php if ($block->getCanShowProductPrice($_item)): ?>
-                            <?= /* @escapeNotVerified */ $block->getProductPrice($_item) ?>
-                        <?php endif; ?>
-                     <?php endif; ?>
+                    <div class="col-sm-2">
+                      <?php $productImage = $block->getImage($item, 'product_page_image_small'); ?>
+                      <?php echo $productImage->toHtml(); ?>
+                    </div>
+                    <div class="col-sm-10">
+                      <h3><?= $block->escapeHtml($_item->getName()) ?></h3>
+                      <?php if ($block->getCanShowProductPrice($_product)): ?>
+                          <?php if ($block->getCanShowProductPrice($_item)): ?>
+                              <?= /* @escapeNotVerified */ $block->getProductPrice($_item) ?>
+                          <?php endif; ?>
+                       <?php endif; ?>
                      </div>
                   </div>
                 </td>
@@ -149,3 +130,24 @@ echo "</ul>";
       </tbody>
     </table>
 </div>
+
+<script>
+require([
+  'jquery',
+  'domReady!'
+], function($)
+{
+  var _availableFilters = "<?php echo $_availableFilters; ?>";
+  _availableFilters = _availableFilters.split(",");
+  _availableFilters.pop();
+  var uniqueNames = [];
+  var filterHtmlList = "<li><label><input type='radio' name='pFilter' class='action primary' onclick='filterAssociateProducts(event)' checked='checked' value='*'><span>All</span></label></li>";
+  $.each(_availableFilters, function(i, el){
+      if($.inArray(el, uniqueNames) === -1){
+        uniqueNames.push(el);
+        filterHtmlList += "<li><label><input type='radio' name='pFilter' class='action primary' onclick='filterAssociateProducts(event)' value='"+el+"'><span>"+el+"</span></label></li>";
+      };
+  });
+  $("#availableFilters").html(filterHtmlList);
+});
+</script>

@@ -100,7 +100,7 @@ ul.filters {
   margin-bottom: 5px;
 }
 ul.filters li{
-  display: inline;
+  display: inline-block;
   margin-right: 2px;
 }
 @media (min-width: 768px) {
