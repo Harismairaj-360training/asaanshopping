@@ -21,7 +21,49 @@ class SidebarFilter
         $customerSession = $objectManager->get('Magento\Customer\Model\Session');
 
 
-        //$getSession     =   $customerSession->getData();
+        $getSession     =   $customerSession->getData();
+        $Urlparam       =   $_GET;
+
+        if(!empty($Urlparam['lat']) && !empty($Urlparam['lng']))
+        {
+            $lat            =   $Urlparam['lat'];
+            $lng            =   $Urlparam['lng'];
+            $areaPinPoint   =   array($lat,$lng);
+
+            // set lat,lng in session if url is empty
+            $customerSession->setData("lat",$lat);
+            $customerSession->setData("lng",$lng);
+        }else{
+                $lat            =   $customerSession->getData("lat");
+                $lng            =   $customerSession->getData("lng");
+                $areaPinPoint   =   array($lat,$lng);
+        }
+
+        $productsLatitude           =   $collection->getAllAttributeValues("latitude");
+        $productsLongitude          =   $collection->getAllAttributeValues("longitude");
+        $productCordinates          =   array_chunk($this->array_interlace($productsLatitude,$productsLongitude), 2);
+
+        foreach($productCordinates as $codinateformat) {
+
+           $latvalue       =   $codinateformat[0][0];
+           $lngvalue       =   $codinateformat[1][0];
+
+            $itemsPinpoints[]       =   array($latvalue,$lngvalue);
+
+            }
+
+        $collectionCordinates           =       $this->areaStoreLocations($areaPinPoint, $itemsPinpoints);
+        $findProducts                   =       $this->sortArrayByArray($itemsPinpoints,$collectionCordinates);
+        
+        //create lat and long array for filter
+        foreach ($findProducts as $latLong){
+            if(!empty($latLong[0]) && !empty($latLong[1]))
+            {
+                $latvalue[]       =   $latLong[0];
+                $lngvalue[]       =   $latLong[1];
+            }
+        }
+       /*
 
         $areaPinPoint = array(24.914380, 67.031566);//Nazimabad
 
@@ -31,17 +73,21 @@ class SidebarFilter
             '2' => array('24.914501','67.024212')//nazimabad Gole Market
         );
 
-        //$collection     =   $this->areaStoreLocations($areaPinPoint, $itemsPinpoints);
+        $collection     =   $this->areaStoreLocations($areaPinPoint, $itemsPinpoints);
 
-        //$collection->addAttributeToFilter('latitude', ['in' => ['24.920733']],'longitude', ['in' => ['67.023393']]);
+        print_r($collection);
+        print_r($itemsPinpoints);
+
+
+        print_r($this->sortArrayByArray($itemsPinpoints,$collection));
+
+ */
+        $collection->addAttributeToFilter('latitude', ['in' => $latvalue],'longitude', ['in' => $lngvalue]);
 
         //$collection->addAttributeToFilter('latitude', array('like' => '%24%'));
         //$collection->addAttributeToFilter('longitude', array('like' => '%67%'));
 
         //$collection->addAttributeToFilter('longitude', ['in' => ['67.088162']]);
-
-
-
 
         //echo $collection->getSelect()->__toString();
 
@@ -69,4 +115,41 @@ class SidebarFilter
         return $nearestDrivers;
 
     }
+    public function array_interlace() {
+        $args = func_get_args();
+        $total = count($args);
+
+        if($total < 2) {
+            return FALSE;
+        }
+
+        $i = 0;
+        $j = 0;
+        $arr = array();
+
+        foreach($args as $arg) {
+            foreach($arg as $v) {
+                $arr[$j] = $v;
+                $j += $total;
+            }
+
+            $i++;
+            $j = $i;
+        }
+
+        ksort($arr);
+        return array_values($arr);
+    }
+
+    public function sortArrayByArray($array,$orderArray) {
+        $ordered = array();
+        foreach($orderArray as $key => $value) {
+            if(array_key_exists($key,$array)) {
+                $ordered[$key] = $array[$key];
+                unset($array[$key]);
+            }
+        }
+        return $ordered + $array;
+    }
+
 }
