@@ -44,6 +44,9 @@ class Data extends AbstractHelper
     /** @var Session */
     protected $session;
 
+    /** @var Cookie */
+    protected $cookie;
+
 
     public function __construct(Context $context,
                                 ObjectManagerInterface $objectManager,
@@ -62,6 +65,7 @@ class Data extends AbstractHelper
         $this->categoryHelper = $categoryHelper;
         $this->categoryRepository = $categoryRepository;
         $this->session = $session;
+        $this->cookie = $this->objectManager->get('AsaanShopping\SearchByLocation\Helper\Cookie');
         parent::__construct($context);
     }
 
@@ -73,11 +77,7 @@ class Data extends AbstractHelper
         $lng                =       $data['lng'];
 
         //  Set Data into session
-        $this->session->setData("categoryId",$categoryId);
-        $this->session->setData("address",$address);
-        $this->session->setData("lat",$lat);
-        $this->session->setData("lng",$lng);
-
+        $this->cookie->set($categoryId."|".$address."|".$lat."|".$lng);
         $categoryUrl        =       $this->getCatUrlById($categoryId);
 
         return $categoryUrl;
@@ -92,20 +92,9 @@ class Data extends AbstractHelper
         return $catUrl;
     }
 
-    public function getAddressSession()
+    public function getAddress()
     {
-        $categoryId     = $this->session->getData("categoryId");
-        $address        = $this->session->getData("address");
-        $lat            = $this->session->getData("lat");
-        $lng            = $this->session->getData("lng");
-
-        $AddressArray     =   array(
-            'categoryId'  =>      $categoryId,
-            'address'     =>      $address,
-            'lat'         =>      $lat,
-            'lng'         =>      $lng
-        );
-
-        return $AddressArray;
+        $val = $this->cookie->get("search_by_location");
+        return explode("|", $val);
     }
 }

@@ -4,7 +4,7 @@
  */
   $baseUrl = $block->getUrl();
   //$categoryProductsJson = $block->getProductCollection();
-  $getAddress     =   $block->getAddressSession();
+  $getAddress     =   $block->getAddress();
   //$catUrl       =   $block->getCatUrlByID(4);
 
   /*echo "<pre>Here:";
@@ -14,9 +14,9 @@
 
 <div class="search-location header-regular">
   <div class="block block-search search-wrapper size-xl">
-    <div class="field search exist">
+    <div class="field search <?php if(!empty($getAddress[1])){echo 'exist';} ?>">
         <div class="control">
-          <input type="text" id="locationSearchField" value="Gulistan-E-Jauhor, Block 12, Karachi, Pakistan" placeholder="Enter your address to find nearest store..." class="input-text" autocomplete="off">
+          <input type="text" id="locationSearchField" value="<?php if(!empty($getAddress[1])){echo $getAddress[1];} ?>" placeholder="Enter your address to find nearest store..." class="input-text" autocomplete="off">
         </div>
         <div class="actions">
             <span class="action search">

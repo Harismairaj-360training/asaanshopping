@@ -45,17 +45,16 @@ class SidebarFilter
 
         foreach($productCordinates as $codinateformat) {
 
-           $latvalue       =   $codinateformat[0][0];
-           $lngvalue       =   $codinateformat[1][0];
-
-            $itemsPinpoints[]       =   array($latvalue,$lngvalue);
+            $itemsPinpoints[]       =   array($codinateformat[0][0],$codinateformat[1][0]);
 
             }
 
         $collectionCordinates           =       $this->areaStoreLocations($areaPinPoint, $itemsPinpoints);
         $findProducts                   =       $this->sortArrayByArray($itemsPinpoints,$collectionCordinates);
-        
+
         //create lat and long array for filter
+        $latvalue = [];
+        $lngvalue = [];
         foreach ($findProducts as $latLong){
             if(!empty($latLong[0]) && !empty($latLong[1]))
             {
@@ -63,7 +62,15 @@ class SidebarFilter
                 $lngvalue[]       =   $latLong[1];
             }
         }
-       /*
+
+        /*echo "<pre>";
+        print_r($collectionCordinates);
+        print_r($itemsPinpoints);
+        print_r($latvalue);
+        print_r($lngvalue);
+        echo "</pre>";
+        exit;
+
 
         $areaPinPoint = array(24.914380, 67.031566);//Nazimabad
 
