@@ -1,21 +1,8 @@
-<?php namespace CzoneTech\AjaxifiedCatalog\Model\Plugin;
+<?php namespace AsaanShopping\SearchByLocation\Model\Plugin;
 
-use Magento\Catalog\Model\ResourceModel\Product\Collection as ProductCollection;
+class Layer {
+    public function afterGetProductCollection($subject, $collection) {
 
-class SidebarFilter
-{
-    /**
-     * aroundAddFieldToFilter method
-     *
-     * @param \Magento\Catalog\Model\ResourceModel\Product\Collection $collection
-     * @param \Closure                                                $proceed
-     * @param                                                         $fields
-     * @param null                                                    $condition
-     *
-     * @return \Magento\Catalog\Model\ResourceModel\Product\Collection
-     */
-    public function aroundAddFieldToFilter(ProductCollection $collection, \Closure $proceed, $fields, $condition = null)
-    {
         // Here we can modify the collection
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         $customerSession = $objectManager->get('Magento\Customer\Model\Session');
@@ -34,9 +21,9 @@ class SidebarFilter
             $customerSession->setData("lat",$lat);
             $customerSession->setData("lng",$lng);
         }else{
-                $lat            =   $customerSession->getData("lat");
-                $lng            =   $customerSession->getData("lng");
-                $areaPinPoint   =   array($lat,$lng);
+            $lat            =   $customerSession->getData("lat");
+            $lng            =   $customerSession->getData("lng");
+            $areaPinPoint   =   array($lat,$lng);
         }
 
         $productsLatitude           =   $collection->getAllAttributeValues("latitude");
@@ -47,7 +34,7 @@ class SidebarFilter
 
             $itemsPinpoints[]       =   array($codinateformat[0][0],$codinateformat[1][0]);
 
-            }
+        }
 
         $collectionCordinates           =       $this->areaStoreLocations($areaPinPoint, $itemsPinpoints);
         $findProducts                   =       $this->sortArrayByArray($itemsPinpoints,$collectionCordinates);
@@ -89,16 +76,19 @@ class SidebarFilter
         print_r($this->sortArrayByArray($itemsPinpoints,$collection));
 
  */
-        $collection->addAttributeToFilter('latitude', ['in' => $latvalue],'longitude', ['in' => $lngvalue]);
+        $collection->addAttributeToFilter('latitude', ['in' => $latvalue]);
+        
 
         //$collection->addAttributeToFilter('latitude', array('like' => '%24%'));
         //$collection->addAttributeToFilter('longitude', array('like' => '%67%'));
 
         //$collection->addAttributeToFilter('longitude', ['in' => ['67.088162']]);
 
+        //$collection->getSize();
+
         //echo $collection->getSelect()->__toString();
 
-        return $fields ? $proceed($fields, $condition) : $collection;
+        return $collection;
     }
 
     public function areaStoreLocations($areaPinPoint = '', $itemsPinpoints ='')
@@ -158,5 +148,4 @@ class SidebarFilter
         }
         return $ordered + $array;
     }
-
 }
