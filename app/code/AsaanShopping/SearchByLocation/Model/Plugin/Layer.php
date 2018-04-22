@@ -7,79 +7,91 @@ class Layer {
     public function afterGetProductCollection($subject, $collection)
     {
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $customerSession = $objectManager->get('Magento\Customer\Model\Session');
-        $getSession = $customerSession->getData();
-        $Urlparam = $_GET;
-        if(!empty($Urlparam['lat']) && !empty($Urlparam['lng']))
+        $cookie = $objectManager->get('AsaanShopping\SearchByLocation\Helper\Cookie');
+
+        $val = $cookie->get();
+        $cookieData = explode("|", $val);
+        $urlParam = $_GET;
+        if(!empty($urlParam['lat']) && !empty($urlParam['lng']))
         {
-            $lat = $Urlparam['lat'];
-            $lng = $Urlparam['lng'];
-            $areaPinPoint = array($lat,$lng);
-            $customerSession->setData("lat",$lat);
-            $customerSession->setData("lng",$lng);
+            $lat = $urlParam['lat'];
+            $lng = $urlParam['lng'];
         }
         else
         {
-            $lat = $customerSession->getData("lat");
-            $lng = $customerSession->getData("lng");
-            $areaPinPoint = array($lat,$lng);
+            $lat = (!empty($cookieData[2])?$cookieData[2]:"");
+            $lng = (!empty($cookieData[3])?$cookieData[3]:"");
         }
+        $areaPinPoint = array($lat,$lng);
 
         /*echo "<pre>";
         print_r($areaPinPoint);
         echo "</pre>";
         exit;*/
-
-        $productsLatitude = $collection->getAllAttributeValues("latitude");
-        $productsLongitude = $collection->getAllAttributeValues("longitude");
-
-        $productCordinates = [];
-        foreach($productsLatitude as $id=>$pl)
+        if(!empty($areaPinPoint[0]) && !empty($areaPinPoint[1]))
         {
-          $productCordinates[$id] = array($pl,$productsLongitude[$id]);
+            $productsLatitude = $collection->getAllAttributeValues("latitude");
+            $productsLongitude = $collection->getAllAttributeValues("longitude");
+
+            $productCordinates = [];
+            foreach($productsLatitude as $id=>$pl)
+            {
+              $productCordinates[$id] = array($pl,$productsLongitude[$id]);
+            }
+
+            /*echo "<pre>";
+            print_r($productsLatitude);
+            print_r($productsLongitude);
+            print_r($productCordinates);
+            echo "</pre>";
+            exit;*/
+
+            $itemsPinpoints = array();
+            foreach($productCordinates as $id=>$codinateformat)
+            {
+                $itemsPinpoints[$id] = array($codinateformat[0][0],$codinateformat[1][0]);
+            }
+
+            $collectionCordinates = $this->areaStoreLocations($areaPinPoint, $itemsPinpoints);
+            $ids = array();
+            foreach($collectionCordinates as $id=>$latLong)
+            {
+              $ids[] = $id;
+            }
+
+            $collection->addAttributeToFilter('entity_id', ['in' => $ids]);
+
+            if(count($ids) > 0)
+            {
+              $collection->getSelect()->order(new \Zend_Db_Expr('FIELD(e.entity_id, ' . implode(',', $ids).')'));
+            }
         }
-
-        /*echo "<pre>";
-        print_r($productsLatitude);
-        print_r($productsLongitude);
-        print_r($productCordinates);
-        echo "</pre>";
-        exit;*/
-
-        $itemsPinpoints = [];
-        foreach($productCordinates as $id=>$codinateformat)
-        {
-            $itemsPinpoints[$id] = array($codinateformat[0][0],$codinateformat[1][0]);
-        }
-
-        $collectionCordinates = $this->areaStoreLocations($areaPinPoint, $itemsPinpoints);
-        $ids = [];
-        foreach($collectionCordinates as $id=>$latLong)
-        {
-          $ids[] = $id;
-        }
-
-        $collection->addAttributeToFilter('entity_id', ['in' => $ids]);
-        $collection->getSelect()->order(new \Zend_Db_Expr('FIELD(e.entity_id, ' . implode(',', $ids).')'));
 
         return $collection;
     }
 
     public function areaStoreLocations($areaPinPoint = '', $itemsPinpoints ='')
     {
-        foreach ($itemsPinpoints as $i=>$driver)
+        $nearestPoint = array();
+        foreach ($itemsPinpoints as $i=>$point)
         {
-            list($lat1, $lon1) = $driver;
+            list($lat1, $lon1) = $point;
             list($lat2, $lon2) = $areaPinPoint;
             $theta = $lon1 - $lon2;
             $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
             $dist = acos($dist);
             $dist = rad2deg($dist);
             $miles = $dist * 60 * 1.1515;
-            $nearestDrivers[$i] = $miles;
+            if(round($miles*1.609344) <= 2)
+            {
+              $nearestPoint[$i] = $miles;
+            }
         }
-        asort($nearestDrivers);
-        $nearestDrivers[key($nearestDrivers)];
-        return $nearestDrivers;
+        if(count($nearestPoint) > 0)
+        {
+          asort($nearestPoint);
+          $nearestPoint[key($nearestPoint)];
+        }
+        return $nearestPoint;
     }
 }

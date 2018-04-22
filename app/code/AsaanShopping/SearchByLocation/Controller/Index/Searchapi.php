@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AsaanShopping\SearchByLocation\Controller\Index;
 
 class Searchapi extends \Magento\Framework\App\Action\Action
@@ -35,8 +34,8 @@ class Searchapi extends \Magento\Framework\App\Action\Action
      */
     public function execute()
     {
-        $parms          =       $this->getRequest()->getPost();
-        $result      =       $this->helper->searchAjaxRequest($parms);
+        $parms = $this->getRequest()->getPost();
+        $result = $this->helper->searchAjaxRequest($parms);
         try {
             return $this->jsonResponse(array(
               "status"=>true,
