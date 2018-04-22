@@ -1,10 +1,9 @@
 <?php
 
-namespace AsaanShopping\SearchByLocation\Controller\Index;
+namespace AsaanShopping\SearchByLocation\Controller\Nearest;
 
-class Searchapi extends \Magento\Framework\App\Action\Action
+class Products extends \Magento\Framework\App\Action\Action
 {
-
     protected $resultPageFactory;
     protected $jsonHelper;
     protected $helper;
